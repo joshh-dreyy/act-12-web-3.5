@@ -7,6 +7,30 @@ const PORT = process.env.PORT || 3000;
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy' });
+});
+
+app.get('/api/categories', (req, res) => {
+  res.json(['Fitness', 'Study', 'Work', 'Adventure']);
+});
+
+app.get('/api/quests', (req, res) => {
+  res.json([
+    { id: 1, title: 'First Quest', status: 'active' },
+    { id: 2, title: 'Second Quest', status: 'completed' }
+  ]);
+});
+
+app.get('/api/quests/:id', (req, res) => {
+  const id = Number.parseInt(req.params.id, 10);
+  res.json({ id, title: `Quest ${id}`, status: 'active' });
+});
+
+app.get('/api/players/:username', (req, res) => {
+  res.json({ username: req.params.username, level: 1, xp: 0 });
+});
+
 // Main deployment interface
 app.get('/', (req, res) => {
   res.send(`
